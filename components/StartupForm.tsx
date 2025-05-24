@@ -82,6 +82,7 @@ const StartupForm = () => {
           className="startup-form_input"
           required
           placeholder="Startup Title"
+          defaultValue={state.title}
         />
         {errors.title && <p className="startup-form_error">{errors.title}</p>}
       </div>
@@ -97,6 +98,7 @@ const StartupForm = () => {
           className="startup-form_textarea"
           required
           placeholder="Startup Description"
+          defaultValue={state.description}
         />
         {errors.description && (
           <p className="startup-form_error">{errors.description}</p>
@@ -114,6 +116,7 @@ const StartupForm = () => {
           className="startup-form_input"
           required
           placeholder="Startup Category (Tech, Health, etc.)"
+          defaultValue={state.category}
         />
         {errors.category && (
           <p className="startup-form_error">{errors.category}</p>
@@ -131,6 +134,7 @@ const StartupForm = () => {
           className="startup-form_input"
           required
           placeholder="Startup Image URL"
+          defaultValue={state.link}
         />
         {errors.link && <p className="startup-form_error">{errors.link}</p>}
       </div>
