@@ -38,7 +38,16 @@ const StartupForm = () => {
         router.push(`/startup/${result._id}`);
       }
 
-      return result;
+      return {
+        ...result,
+        formValues: {
+          title: "",
+          description: "",
+          category: "",
+          link: "",
+          pitch: "",
+        },
+      };
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fieldErrors = error.flatten().fieldErrors;
@@ -50,6 +59,13 @@ const StartupForm = () => {
           ...prevState,
           error: "Validation failed",
           status: "ERROR",
+          formValues: {
+            title: formData.get("title") as string,
+            description: formData.get("description") as string,
+            category: formData.get("category") as string,
+            link: formData.get("link") as string,
+            pitch,
+          },
         };
       }
 
@@ -60,6 +76,13 @@ const StartupForm = () => {
         ...prevState,
         error: "An unexpected error occurred",
         status: "ERROR",
+        formValues: {
+          title: formData.get("title") as string,
+          description: formData.get("description") as string,
+          category: formData.get("category") as string,
+          link: formData.get("link") as string,
+          pitch,
+        },
       };
     }
   };
@@ -67,6 +90,13 @@ const StartupForm = () => {
   const [state, formAction, isPending] = useActionState(handleFormSubmit, {
     error: "",
     status: "INITIAL",
+    formValues: {
+      title: "",
+      description: "",
+      category: "",
+      link: "",
+      pitch: "",
+    },
   });
 
   return (
@@ -82,7 +112,7 @@ const StartupForm = () => {
           className="startup-form_input"
           required
           placeholder="Startup Title"
-          defaultValue={state.title}
+          defaultValue={state.formValues.title}
         />
         {errors.title && <p className="startup-form_error">{errors.title}</p>}
       </div>
@@ -98,7 +128,7 @@ const StartupForm = () => {
           className="startup-form_textarea"
           required
           placeholder="Startup Description"
-          defaultValue={state.description}
+          defaultValue={state.formValues.description}
         />
         {errors.description && (
           <p className="startup-form_error">{errors.description}</p>
@@ -116,7 +146,7 @@ const StartupForm = () => {
           className="startup-form_input"
           required
           placeholder="Startup Category (Tech, Health, etc.)"
-          defaultValue={state.category}
+          defaultValue={state.formValues.category}
         />
         {errors.category && (
           <p className="startup-form_error">{errors.category}</p>
@@ -134,7 +164,7 @@ const StartupForm = () => {
           className="startup-form_input"
           required
           placeholder="Startup Image URL"
-          defaultValue={state.link}
+          defaultValue={state.formValues.link}
         />
         {errors.link && <p className="startup-form_error">{errors.link}</p>}
       </div>
@@ -148,7 +178,7 @@ const StartupForm = () => {
           id="pitch"
           height={300}
           preview="edit"
-          value={pitch}
+          value={state.formValues.pitch || pitch}
           onChange={(value) => setPitch(value as string)}
           style={{ borderRadius: 20, overflow: "hidden" }}
           textareaProps={{
